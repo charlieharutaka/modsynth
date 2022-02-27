@@ -1,6 +1,6 @@
 import { atom } from 'jotai'
 
-const updateRate = atom(30)
+const updateRate = atom(120)
 
 const positionX = atom(0)
 const positionY = atom(0)

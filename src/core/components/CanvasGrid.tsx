@@ -1,6 +1,6 @@
-import { Box, Paper, Typography } from '@mui/material'
+import { Box } from '@mui/material'
 import { useAtom } from 'jotai'
-import React, { FunctionComponent, useEffect, useMemo, useState } from 'react'
+import React, { FunctionComponent, useMemo } from 'react'
 import * as CanvasState from './CanvasState'
 
 type CanvasGridLineProps = {
@@ -42,8 +42,13 @@ const CanvasGridLine: FunctionComponent<CanvasGridLineProps> = ({
         width: vertical ? width : viewWidth,
         height: vertical ? viewHeight : width,
         backgroundColor: color,
+        top: 0,
+        left: 0,
+        willChange: 'transform',
       }}
-      style={{ top, left }}
+      style={{
+        transform: `translate3d(${left}px, ${top}px, 0)`,
+      }}
     />
   )
 }
@@ -62,15 +67,12 @@ const CanvasGrid: FunctionComponent<CanvasGridProps> = ({
   const [canvasWidth] = useAtom(CanvasState.canvasWidth)
   const [canvasHeight] = useAtom(CanvasState.canvasHeight)
 
-  const numVertical = canvasWidth / gridSpacingX + 1
-  const numHorizontal = canvasHeight / gridSpacingY + 1
-
-  const leftmostX = -(Math.ceil(numVertical / 2) * gridSpacingX)
-  const lowermostY = -(Math.ceil(numHorizontal / 2) * gridSpacingY)
   const offsetX = (Math.ceil(positionX / gridSpacingX) - 1) * gridSpacingX
   const offsetY = (Math.ceil(positionY / gridSpacingY) - 1) * gridSpacingY
 
   const verticals = useMemo(() => {
+    const numVertical = canvasWidth / gridSpacingX + 1
+    const leftmostX = -(Math.ceil(numVertical / 2) * gridSpacingX)
     const xs = []
     for (
       let x = leftmostX - offsetX;
@@ -79,8 +81,10 @@ const CanvasGrid: FunctionComponent<CanvasGridProps> = ({
     )
       xs.push(x)
     return xs
-  }, [gridSpacingX, leftmostX, numVertical, offsetX])
+  }, [canvasWidth, gridSpacingX, offsetX])
   const horizontals = useMemo(() => {
+    const numHorizontal = canvasHeight / gridSpacingY + 1
+    const lowermostY = -(Math.ceil(numHorizontal / 2) * gridSpacingY)
     const ys = []
     for (
       let y = lowermostY - offsetY;
@@ -89,7 +93,7 @@ const CanvasGrid: FunctionComponent<CanvasGridProps> = ({
     )
       ys.push(y)
     return ys
-  }, [gridSpacingY, lowermostY, numHorizontal, offsetY])
+  }, [canvasHeight, gridSpacingY, offsetY])
 
   return (
     <>
