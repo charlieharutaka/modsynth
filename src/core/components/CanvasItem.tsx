@@ -26,8 +26,12 @@ const CanvasItem: FunctionComponent<CanvasItemProps> = ({
   const [positionX, setPositionX] = useState(initialX)
   const [positionY, setPositionY] = useState(initialY)
 
-  const left = canvasWidth / 2 + canvasPositionX - width / 2 + positionX
-  const top = canvasHeight / 2 + canvasPositionY - height / 2 + positionY
+  const left =
+    (canvasWidth / 2 + canvasPositionX - width / 2 + positionX) /
+    (canvasZoomRatio / 100)
+  const top =
+    (canvasHeight / 2 + canvasPositionY - height / 2 + positionY) /
+    (canvasZoomRatio / 100)
 
   return (
     <Paper
@@ -39,8 +43,12 @@ const CanvasItem: FunctionComponent<CanvasItemProps> = ({
         flexDirection: 'column',
         justifyContent: 'center',
         alignItems: 'center',
+        top: 0,
+        left: 0,
       }}
-      style={{ left, top }}
+      style={{
+        transform: `translate3d(${left}px, ${top}px, 0)`,
+      }}
     >
       {children}
     </Paper>
