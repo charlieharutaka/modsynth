@@ -1,3 +1,4 @@
+import _ from 'lodash'
 import { Box } from '@mui/system'
 import { Provider, useAtom } from 'jotai'
 import React, {
@@ -20,6 +21,7 @@ const RawCanvas: FunctionComponent<CanvasProps> = ({ children }) => {
   const [zoomRatio, setZoom] = useAtom(CanvasState.zoomRatio)
   const [, setViewWidth] = useAtom(CanvasState.viewWidth)
   const [, setViewHeight] = useAtom(CanvasState.viewHeight)
+  const [updateRate] = useAtom(CanvasState.updateRate)
 
   const [moving, setMoving] = useState(false)
   const [initialX, setInitialX] = useState(0)
@@ -30,14 +32,14 @@ const RawCanvas: FunctionComponent<CanvasProps> = ({ children }) => {
     setViewHeight(canvasRef.current?.clientHeight ?? 0)
   }, [canvasRef.current?.clientWidth, canvasRef.current?.clientHeight])
 
-  const handleMouseMove: MouseEventHandler = event => {
+  const handleMouseMove: MouseEventHandler = _.throttle(event => {
     event.preventDefault()
     event.stopPropagation()
     if (!moving) return
 
     setX(event.clientX - initialX)
     setY(event.clientY - initialY)
-  }
+  }, 1000 / updateRate)
   const handleMouseDown: MouseEventHandler = event => {
     event.preventDefault()
     event.stopPropagation()
