@@ -16,8 +16,13 @@ const Landing: FunctionComponent = () => {
     >
       <Canvas>
         <CanvasGrid gridSpacingX={240} gridSpacingY={240} />
-        <CanvasItem width={240} height={240} initialX={240} initialY={240}>
-          <Typography variant="h1">XD</Typography>
+        <CanvasItem
+          width={240}
+          height={240}
+          initialPositionX={240}
+          initialPositionY={240}
+        >
+          <Typography variant="h3">やはっろ</Typography>
         </CanvasItem>
       </Canvas>
     </Box>
