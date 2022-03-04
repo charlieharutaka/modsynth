@@ -1,9 +1,9 @@
 import { Box, Typography } from '@mui/material'
 import React, { FunctionComponent } from 'react'
 
-import CanvasGrid from '../core/components/CanvasGrid'
-import Canvas from '../core/components/Canvas'
-import CanvasItem from '../core/components/CanvasItem'
+import CanvasGrid from '../core/canvas/CanvasGrid'
+import Canvas from '../core/canvas/Canvas'
+import CanvasItem from '../core/canvas/CanvasItem'
 
 const Landing: FunctionComponent = () => {
   return (
@@ -17,10 +17,10 @@ const Landing: FunctionComponent = () => {
       <Canvas>
         <CanvasGrid gridSpacingX={240} gridSpacingY={240} />
         <CanvasItem
-          width={240}
-          height={240}
-          initialPositionX={240}
-          initialPositionY={240}
+          width={220}
+          height={220}
+          initialPositionX={0}
+          initialPositionY={0}
         >
           <Typography variant="h3">やはっろ</Typography>
         </CanvasItem>
