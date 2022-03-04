@@ -8,6 +8,7 @@
   "license": "GPL-3.0-or-later",
   "private": true,
   "scripts": {
+    "ci": "rm -rf node_modules && yarn install --immutable",
     "build": "cross-env NODE_ENV=production webpack",
     "start": "cross-env NODE_ENV=development webpack-dev-server",
     "test": "echo \"Error: no test specified\" && exit 1"
