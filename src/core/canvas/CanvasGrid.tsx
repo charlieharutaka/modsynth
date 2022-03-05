@@ -27,8 +27,9 @@ const CanvasGrid: FunctionComponent<CanvasGridProps> = ({
         height: canvasHeight,
         backgroundSize: `${gridSpacingX}px ${gridSpacingY}px`,
         backgroundImage: `
-           linear-gradient(to right, #eee 2px, transparent 1px),\
-           linear-gradient(to bottom, #eee 2px, transparent 1px)`,
+          radial-gradient(circle, #eee 2px, transparent 1px),
+          linear-gradient(to right, #eee 2px, transparent 1px),
+          linear-gradient(to bottom, #eee 2px, transparent 1px)`,
       }}
       style={{
         backgroundPositionX,

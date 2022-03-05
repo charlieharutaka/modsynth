@@ -3,7 +3,8 @@ import React, { FunctionComponent } from 'react'
 
 import CanvasGrid from '../core/canvas/CanvasGrid'
 import Canvas from '../core/canvas/Canvas'
-import CanvasItem from '../core/canvas/CanvasItem'
+import Panel from '../modules/common/Panel'
+import Plug from '../modules/common/Socket'
 
 const Landing: FunctionComponent = () => {
   return (
@@ -16,14 +17,11 @@ const Landing: FunctionComponent = () => {
     >
       <Canvas>
         <CanvasGrid gridSpacingX={240} gridSpacingY={240} />
-        <CanvasItem
-          width={220}
-          height={220}
-          initialPositionX={0}
-          initialPositionY={0}
-        >
-          <Typography variant="h3">やはっろ</Typography>
-        </CanvasItem>
+        <Panel widthUnits={1} heightUnits={2}>
+          yahallo
+          <Plug label="L/Mon" positionX={70} positionY={390} />
+          <Plug label="Right" positionX={150} positionY={390} />
+        </Panel>
       </Canvas>
     </Box>
   )

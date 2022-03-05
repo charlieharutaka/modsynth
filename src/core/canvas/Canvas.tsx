@@ -31,14 +31,18 @@ const Canvas: FunctionComponent<CanvasProps> = ({ children }) => {
   ])
 
   const getHandlePointerMove = (initialX: number, initialY: number) =>
-    _.throttle((event: PointerEvent): void => {
-      event.preventDefault()
-      event.stopPropagation()
-      _.defer(() => {
-        setX(event.clientX - initialX)
-        setY(event.clientY - initialY)
-      })
-    }, 1000 / updateRate)
+    _.throttle(
+      (event: PointerEvent): void => {
+        event.preventDefault()
+        event.stopPropagation()
+        _.defer(() => {
+          setX(event.clientX - initialX)
+          setY(event.clientY - initialY)
+        })
+      },
+      1000 / updateRate,
+      { leading: true }
+    )
 
   const handleMouseDown: PointerEventHandler = event => {
     event.preventDefault()
@@ -50,7 +54,10 @@ const Canvas: FunctionComponent<CanvasProps> = ({ children }) => {
     document.addEventListener('pointermove', handlePointerMove)
     document.addEventListener(
       'pointerup',
-      () => document.removeEventListener('pointermove', handlePointerMove),
+      () => {
+        document.removeEventListener('pointermove', handlePointerMove)
+        handlePointerMove.flush()
+      },
       {
         once: true,
       }
