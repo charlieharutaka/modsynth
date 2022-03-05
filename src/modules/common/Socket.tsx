@@ -27,17 +27,18 @@ const Socket: FunctionComponent<SocketProps> = ({
         height,
         top: positionY - height / 2,
         left: positionX - width / 2,
-        backgroundColor: blueGrey[900],
+        backgroundColor: blueGrey[50],
+        borderWidth: '2px',
+        borderColor: blueGrey[200],
       }}
       onPointerDown={event => {
         event.preventDefault()
         event.stopPropagation()
       }}
       onPointerUp={event => {
-        event.preventDefault()
-        event.stopPropagation()
         console.log(socketId)
       }}
+      variant="outlined"
     >
       <Box
         sx={{
@@ -48,11 +49,11 @@ const Socket: FunctionComponent<SocketProps> = ({
           height: '40px',
         }}
       >
-        <Typography variant="button" color="white">
+        <Typography variant="button" color={blueGrey[200]}>
           {label}
         </Typography>
       </Box>
-      <Box
+      <Paper
         sx={{
           width: '40px',
           height: '40px',
@@ -62,6 +63,7 @@ const Socket: FunctionComponent<SocketProps> = ({
           left: '10px',
           bottom: '10px',
         }}
+        elevation={4}
       >
         <Box
           sx={{
@@ -98,7 +100,7 @@ const Socket: FunctionComponent<SocketProps> = ({
             />
           </Box>
         </Box>
-      </Box>
+      </Paper>
     </Paper>
   )
 }
