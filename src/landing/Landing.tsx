@@ -18,17 +18,19 @@ const Landing: FunctionComponent = () => {
     >
       <Canvas>
         <CanvasGrid gridSpacingX={240} gridSpacingY={240} />
-        <Panel widthUnits={1} heightUnits={2}>
+        <Panel widthUnits={1} heightUnits={3}>
           <Knob
             label="Level"
             positionX={110}
-            positionY={250}
+            positionY={490}
+            defaultValue={0}
             minValue={0}
             maxValue={1}
             onChange={value => console.log(value)}
+            numSteps={16}
           />
-          <Plug label="L/Mon" positionX={70} positionY={390} />
-          <Plug label="Right" positionX={150} positionY={390} />
+          <Plug label="L/Mon" positionX={70} positionY={630} />
+          <Plug label="Right" positionX={150} positionY={630} />
         </Panel>
       </Canvas>
     </Box>

@@ -6,6 +6,7 @@ import React, {
   FunctionComponent,
   PointerEventHandler,
   useEffect,
+  useMemo,
   useState,
 } from 'react'
 import * as CanvasState from '../../core/canvas/CanvasState'
@@ -20,6 +21,7 @@ type KnobProps = {
   height?: number
   label?: string
   onChange?: (value: number) => void
+  numSteps?: number
 }
 
 const Knob: FunctionComponent<KnobProps> = ({
@@ -32,16 +34,35 @@ const Knob: FunctionComponent<KnobProps> = ({
   height = 150,
   label,
   onChange,
+  numSteps,
 }) => {
   const [updateRate] = useAtom(CanvasState.updateRate)
-  const [rotation, setRotation] = useState(0)
+  const [rotation, setRotation] = useState(
+    () => ((defaultValue - minValue) / (maxValue - minValue)) * 290 - 145
+  )
+
+  const steps = useMemo(() => {
+    if (numSteps) {
+      const _steps = []
+      const stepAmount = 290 / (numSteps - 1)
+      for (let i = -145 + stepAmount; i < 145; i += stepAmount) {
+        _steps.push(i)
+      }
+      return _steps
+    } else return undefined
+  }, [numSteps])
 
   const getHandlePointerMove = (initialRotation: number, initialY: number) =>
     _.throttle(
       (event: PointerEvent): void => {
         event.preventDefault()
         event.stopPropagation()
-        const newRotation = initialRotation + (event.clientY - initialY) / -2.5
+        let newRotation = initialRotation + (event.clientY - initialY) / -2.5
+        if (numSteps) {
+          const stepAmount = 290 / (numSteps - 1)
+          newRotation =
+            Math.floor((newRotation + 145) / stepAmount) * stepAmount - 145
+        }
         if (newRotation < -145) {
           setRotation(-145)
         } else if (newRotation > 145) {
@@ -129,13 +150,50 @@ const Knob: FunctionComponent<KnobProps> = ({
           bottom: '60px',
         }}
       />
+      {steps?.map(stepAngle => (
+        <Box
+          key={stepAngle}
+          sx={{
+            position: 'absolute',
+            width: '1px',
+            height: '55px',
+            backgroundColor: blueGrey[200],
+            transformOrigin: 'bottom center',
+            transform: `rotate(${stepAngle}deg)`,
+            left: '70px',
+            bottom: '60px',
+          }}
+        />
+      ))}
+      <Typography
+        sx={{
+          position: 'absolute',
+          bottom: '0px',
+          left: '10px',
+        }}
+        variant="button"
+        color={blueGrey[200]}
+      >
+        {minValue}
+      </Typography>
+      <Typography
+        sx={{
+          position: 'absolute',
+          bottom: '0px',
+          right: '10px',
+        }}
+        variant="button"
+        color={blueGrey[200]}
+      >
+        {maxValue}
+      </Typography>
       <Paper
         sx={{
           position: 'absolute',
           width: '100px',
           height: '100px',
           borderRadius: '140px',
-          backgroundImage: 'linear-gradient(to bottom, #888, #222)',
+          backgroundImage: `linear-gradient(to bottom, ${blueGrey[300]}, ${blueGrey[700]})`,
           bottom: '10px',
           left: '20px',
         }}
@@ -147,7 +205,7 @@ const Knob: FunctionComponent<KnobProps> = ({
             width: '96px',
             height: '96px',
             borderRadius: '140px',
-            backgroundColor: 'black',
+            backgroundColor: blueGrey[900],
             top: '2px',
             left: '2px',
           }}
@@ -165,7 +223,7 @@ const Knob: FunctionComponent<KnobProps> = ({
               top: '2px',
               left: '46px',
             }}
-          ></Box>
+          />
         </Box>
       </Paper>
     </Paper>
