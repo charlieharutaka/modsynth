@@ -15,7 +15,9 @@ type KnobProps = {
   positionX: number
   positionY: number
   minValue: number
+  minValueLabel?: string
   maxValue: number
+  maxValueLabel?: string
   defaultValue?: number
   width?: number
   height?: number
@@ -28,7 +30,9 @@ const Knob: FunctionComponent<KnobProps> = ({
   positionX,
   positionY,
   minValue,
+  minValueLabel = minValue,
   maxValue,
+  maxValueLabel = maxValue,
   defaultValue = (maxValue + minValue) / 2,
   width = 140,
   height = 150,
@@ -95,7 +99,7 @@ const Knob: FunctionComponent<KnobProps> = ({
   useEffect(
     () =>
       onChange?.(((rotation + 145) / 290) * (maxValue - minValue) + minValue),
-    [rotation, onChange]
+    [rotation, onChange, maxValue, minValue]
   )
 
   return (
@@ -174,7 +178,7 @@ const Knob: FunctionComponent<KnobProps> = ({
         variant="button"
         color={blueGrey[200]}
       >
-        {minValue}
+        {minValueLabel}
       </Typography>
       <Typography
         sx={{
@@ -185,7 +189,7 @@ const Knob: FunctionComponent<KnobProps> = ({
         variant="button"
         color={blueGrey[200]}
       >
-        {maxValue}
+        {maxValueLabel}
       </Typography>
       <Paper
         sx={{
